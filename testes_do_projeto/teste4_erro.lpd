@@ -1,0 +1,5 @@
+-- Erro 04: Uso incorreto do comando read (sintaxe/semântica)
+prg Erro04;
+begin
+  read(5);   -- não é permitido ler em constantes
+end.

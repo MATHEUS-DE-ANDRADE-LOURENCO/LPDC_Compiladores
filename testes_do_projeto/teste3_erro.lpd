@@ -1,0 +1,9 @@
+-- Erro 03: Declaração duplicada (semântica)
+prg Erro03;
+var
+  int a;
+  int a;
+begin
+  a <- 5;
+  write(a);
+end.

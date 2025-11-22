@@ -1,0 +1,7 @@
+	INPP
+soma:	
+	AMEM 2
+	CRVL 0
+	CRVL 1
+	SOMA
+	ARMZ 0

@@ -1,0 +1,11 @@
+-- Teste 06: Laço repeat-until
+prg Teste06;
+var
+  int x;
+begin
+  repeat
+    write("Digite um número maior que 10:");
+    read(x);
+  until (x > 10);
+  write("Número válido:", x);
+end.

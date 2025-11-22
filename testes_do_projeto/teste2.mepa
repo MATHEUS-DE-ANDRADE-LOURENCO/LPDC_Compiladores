@@ -1,0 +1,10 @@
+	INPP
+	AMEM 1
+	CRCT Digite um número:
+	IMPR
+	LEIT 0
+	CRCT Você digitou:
+	IMPR
+	CRVL 0
+	IMPR
+	PARA

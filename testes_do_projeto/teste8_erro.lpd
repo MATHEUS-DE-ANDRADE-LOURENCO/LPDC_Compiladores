@@ -1,0 +1,8 @@
+-- Erro Semântico 04: indexação inválida (0 fora do intervalo)
+prg SemErr04;
+var
+  int v[3];
+begin
+  v[0] <- 1;  -- indexação começa em 1
+  write(v[0]);
+end.

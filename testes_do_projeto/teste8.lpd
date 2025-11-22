@@ -1,0 +1,10 @@
+-- Teste 08: Sub-rotina de soma
+prg Teste08;
+subrot
+int soma(int a, int b)
+begin
+  return a+b;
+end;
+begin
+  write("Resultado:", soma(3,4));
+end.

@@ -1,0 +1,11 @@
+-- Teste 04: Estrutura condicional simples
+prg Teste04;
+var
+  int n;
+begin
+  read(n);
+  if (n > 0) then
+    write("Número positivo")
+  else
+    write("Número não positivo");
+end.

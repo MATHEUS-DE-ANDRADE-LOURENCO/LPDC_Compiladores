@@ -1,0 +1,160 @@
+Manual da Linguagem MEPA
+
+------------------------------------------------------------
+Visão Geral
+A MEPA (Máquina de Execução de Pascal) é uma máquina virtual baseada em pilha,
+proposta para fins didáticos no ensino de compiladores. Ela executa instruções
+simples e compactas, manipulando dados em uma pilha e controlando fluxo por meio
+de rótulos e desvios.
+
+------------------------------------------------------------
+Arquitetura
+- Região do Programa (P): armazena as instruções a serem executadas.
+- Região da Pilha ou Dados (M): armazena constantes, variáveis, parâmetros e resultados.
+- Registradores:
+  i → aponta para a próxima instrução em P.
+  s → aponta para o topo da pilha em M.
+  D → registradores de base (display), usados para variáveis locais.
+
+------------------------------------------------------------
+Conjunto de Instruções
+
+1. Essenciais
+- INPP → inicia programa principal (i ← 0, D[0] ← 0).
+- PARA → termina execução.
+- LEIT → lê valor da entrada padrão e empilha.
+- IMPR → desempilha valor e imprime na saída padrão.
+
+2. Carga e Armazenamento
+- AMEM m → aloca m espaços na pilha.
+- DMEM m → desaloca m espaços da pilha.
+- CRCT k → empilha constante k.
+- CRVL m,n → empilha valor da variável de endereço n (nível m).
+- ARMZ m,n → armazena valor desempilhado na variável de endereço n (nível m).
+
+3. Aritméticas
+- SOMA → M[s-1] ← M[s-1] + M[s]; s ← s-1
+- SUBT → M[s-1] ← M[s-1] - M[s]; s ← s-1
+- MULT → M[s-1] ← M[s-1] * M[s]; s ← s-1
+- DIVI → M[s-1] ← M[s-1] / M[s]; s ← s-1
+- INVR → M[s] ← -M[s]
+
+4. Relacionais
+- CMME → menor (<)
+- CMEG → menor ou igual (<=)
+- CMMA → maior (>)
+- CMAG → maior ou igual (>=)
+- CMIG → igual (==)
+- CMDG → diferente (!=)
+
+5. Lógicos
+- CONJ → conjunção (and)
+- DISJ → disjunção (or)
+- NEGA → negação (not)
+
+6. Controle de Fluxo
+- DSVS p → desvio sempre (goto p).
+- DSVF p → desvio se falso (se topo da pilha = 0, vai para p).
+- NADA → sem operação (avança para próxima instrução).
+
+------------------------------------------------------------
+Tradução de Estruturas
+
+If-Else:
+if expr then cmd1 else cmd2
+  // expr
+  DSVF L1
+  // cmd1
+  DSVS L2
+L1: NADA
+  // cmd2
+L2: NADA
+
+While:
+while expr do cmd
+L1: NADA
+  // expr
+  DSVF L2
+  // cmd
+  DSVS L1
+L2: NADA
+
+Repeat-Until:
+repeat
+  // comandos
+until expr
+L1: NADA
+  // comandos
+  // expr
+  DSVF L1
+
+For:
+for (init; cond; inc) cmd
+  // init
+L1: NADA
+  // cond
+  DSVF L2
+  // cmd
+  // inc
+  DSVS L1
+L2: NADA
+
+------------------------------------------------------------
+Exemplo 1: Programa simples
+prg Exemplo;
+var int a,b;
+begin
+  read(a);
+  read(b);
+  write(a+b);
+end.
+
+Código MEPA:
+INPP
+AMEM 2
+LEIT
+ARMZ 0,0
+LEIT
+ARMZ 0,1
+CRVL 0,0
+CRVL 0,1
+SOMA
+IMPR
+DMEM 2
+PARA
+
+------------------------------------------------------------
+Exemplo 2: Loop de 1 a 5
+prg Loop;
+var int i;
+begin
+  for (i<-1; i<=5; i<-i+1)
+    write(i);
+end.
+
+Código MEPA:
+INPP
+AMEM 1
+CRCT 1
+ARMZ 0,0
+L1: NADA
+CRVL 0,0
+CRCT 5
+CMME
+DSVF L2
+CRVL 0,0
+IMPR
+CRVL 0,0
+CRCT 1
+SOMA
+ARMZ 0,0
+DSVS L1
+L2: NADA
+DMEM 1
+PARA
+
+------------------------------------------------------------
+Observações
+- Instruções de dois endereços não devem ter espaço entre parâmetros (ex.: ARMZ 0,0).
+- Rótulos simbólicos (L1, L2, etc.) são usados para facilitar leitura e tradução.
+- A pilha é o mecanismo central de manipulação de dados.

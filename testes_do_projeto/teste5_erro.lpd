@@ -1,0 +1,5 @@
+-- Erro 05: Falta de ponto final no programa (sintaxe)
+prg Erro05;
+begin
+  write("Teste sem ponto final")
+end   -- deveria terminar com "end."

@@ -1,0 +1,6 @@
+-- Erro 02: Variável não declarada (semântica)
+prg Erro02;
+begin
+  x <- 10;
+  write(x);
+end.

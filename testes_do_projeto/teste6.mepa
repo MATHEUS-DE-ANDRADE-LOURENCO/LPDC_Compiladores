@@ -1,0 +1,13 @@
+	INPP
+	AMEM 1
+	CRCT Digite um número maior que 10:
+	IMPR
+	LEIT 0
+	CRVL 0
+	CRCT 10
+	CMMAI
+	CRCT Número válido:
+	IMPR
+	CRVL 0
+	IMPR
+	PARA

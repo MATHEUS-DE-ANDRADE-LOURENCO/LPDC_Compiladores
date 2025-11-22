@@ -1,0 +1,5 @@
+-- Erro Sintático 03: ponto final do programa ausente
+prg MissingDot;
+begin
+  write("ok");
+end

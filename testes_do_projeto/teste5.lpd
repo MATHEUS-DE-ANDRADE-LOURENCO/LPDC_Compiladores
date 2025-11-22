@@ -1,0 +1,12 @@
+-- Teste 05: Laço while
+prg Teste05;
+var
+  int i;
+begin
+  i <- 1;
+  while (i <= 5)
+  begin
+    write("Contador:", i);
+    i <- i+1;
+  end;
+end.

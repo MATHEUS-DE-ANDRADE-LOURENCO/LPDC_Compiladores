@@ -1,0 +1,6 @@
+-- Erro 01: Parênteses desbalanceados (sintaxe)
+prg Erro01;
+begin
+  int x;
+  x <- ((5 + 3) * 2;
+end.

@@ -1,0 +1,5 @@
+-- Teste 01: Olá Mundo
+prg Teste01;
+begin
+  write("Olá mundo!");
+end.

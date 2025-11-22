@@ -1,0 +1,7 @@
+Tabela de Simbolos
+
+-- Escopo 0 --
+nome=Teste09 kind=FUNC type=void params=0
+nome=a kind=VAR type=int
+nome=b kind=VAR type=int
+nome=c kind=VAR type=int

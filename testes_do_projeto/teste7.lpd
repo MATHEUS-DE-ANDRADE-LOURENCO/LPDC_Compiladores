@@ -1,0 +1,8 @@
+-- Teste 07: Laço for
+prg Teste07;
+var
+  int i;
+begin
+  for (i<-1; i<=5; i<-i+1)
+    write("Iteração:", i);
+end.

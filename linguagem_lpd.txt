@@ -1,0 +1,211 @@
+Manual da Linguagem LPD
+
+Visão Geral
+A LPD (Linguagem de Programação Didática) é uma linguagem simplificada voltada para o ensino de construção de compiladores. Sua sintaxe e estrutura lembram Pascal e C, com foco em clareza e didática.
+
+------------------------------------------------------------
+Tipos de Dados Primitivos
+- int   → valores inteiros
+- float → valores reais
+- char  → caracteres simples
+
+Strings são tratadas como vetores de char com tamanho entre 1 e 255.
+Vetores multidimensionais (matrizes) não são suportados.
+
+------------------------------------------------------------
+Declaração de Variáveis
+
+Variáveis Simples:
+<tipo> <identificador>;
+<tipo> <id1>, <id2>, ..., <idN>;
+
+Vetores:
+<tipo> <identificador>[<tamanho>];
+
+Indexação começa em 1 até <tamanho>.
+Inicialização na declaração não é permitida.
+
+------------------------------------------------------------
+Delimitadores
+- Strings: "..."
+- Caractere: '...'
+- Comentário: {...}
+
+------------------------------------------------------------
+Operadores
+
+Atribuição:
+<-   → atribuição de valor
+
+Aritméticos:
++ - * / → soma, subtração, multiplicação, divisão
+
+Relacionais:
+== != > < >= <=
+
+Lógicos:
+and, or, not
+
+------------------------------------------------------------
+Blocos de Comandos
+begin
+  <comando ou blocos>
+end
+
+Blocos podem conter comandos ou outros blocos.
+Bloco vazio é permitido, mas sem efeito.
+
+------------------------------------------------------------
+Entrada e Saída
+
+Comando write:
+write(<elemento>);
+write(<e1>, <e2>, ..., <eN>);
+
+Aceita múltiplos elementos: strings, variáveis, expressões, retorno de sub-rotinas.
+
+Comando read:
+read(<variável>);
+
+Apenas variáveis são aceitas.
+Para múltiplas leituras, usar múltiplos read.
+
+------------------------------------------------------------
+Comando de Decisão
+
+if simples:
+if (<expressão>) then
+  <comando ou bloco>;
+
+if com else:
+if (<expressão>) then
+  <comando ou bloco>
+else
+  <comando ou bloco>;
+
+------------------------------------------------------------
+Comandos de Repetição
+
+for:
+for (<inicialização>; <condição>; <incremento>)
+  <comando ou bloco>;
+
+while:
+while (<condição>)
+  <comando ou bloco>;
+
+repeat ... until:
+repeat
+  <comandos>
+until (<condição>);
+
+Executa ao menos uma vez.
+Não requer begin/end.
+
+------------------------------------------------------------
+Palavras Reservadas
+and, begin, char, else, end, float, for, if, int, not,
+or, prg, read, repeat, return, subrot, then, until, var,
+void, while, write
+
+------------------------------------------------------------
+Estrutura de um Programa LPD
+
+Mínima:
+prg <nome>;
+begin
+  <comandos>
+end.
+
+Completa:
+prg <nome>;
+var
+  <declarações globais>
+subrot
+  <sub-rotinas>
+begin
+  <comandos principais>
+end.
+
+------------------------------------------------------------
+Sub-rotinas
+
+Estrutura:
+<tipo> <nome>(<parâmetros>)
+var
+  <variáveis locais>
+subrot
+  <sub-rotinas locais>
+begin
+  <comandos>
+end;
+
+- void indica ausência de retorno.
+- Parâmetros são passados por valor.
+- Não há ponteiros ou passagem por referência.
+- Suporta aninhamento de sub-rotinas (até 2 níveis recomendado).
+
+------------------------------------------------------------
+Exemplo: Olá Mundo
+prg Exemplo_01;
+begin
+  write("Olá mundo!");
+end.
+
+------------------------------------------------------------
+Exemplo: Soma com Sub-rotina
+prg Exemplo_03;
+subrot
+int SOMA(int A, int B)
+begin
+  return A+B;
+end;
+begin
+  write(SOMA(1,2));
+end.
+
+------------------------------------------------------------
+Exemplo: Verificação de Triângulo
+prg Exemplo_04;
+var
+  int a,b,c;
+begin
+  write("Entre com três valores inteiros:");
+  read(a);
+  read(b);
+  read(c);
+  if ((a+b<c) or (a+c<b) or (b+c<a)) then
+    write("Essas medidas não formam um triângulo.")
+  else
+    if ((a==b)and(b==c)) then
+      write("Triângulo equilátero")
+    else if ((a!=b)and(b!=c)) then
+      write("Triângulo escaleno")
+    else
+      write("Triângulo isósceles");
+end.
+
+------------------------------------------------------------
+Referência Formal (EBNF Simplificada para MEPA)
+
+<ini> ::= sPRG <id> ; [<dcl>] <bco> .
+<dcl> ::= sVAR <tipo> <id> { , <id> } ;
+<tipo> ::= sINT
+<bco> ::= sBEGIN { <cmd> ; } sEND
+<cmd> ::= <wr> | <rd> | <if> | <fr> | <wh> | <rpt> | <atr> | <bco> | <ret>
+<wr> ::= sWRITE ( <e> { , <e> } )
+<rd> ::= sREAD ( <id> )
+<if> ::= sIF ( <exp> ) sTHEN <cmd> [ sELSE <cmd> ]
+<fr> ::= sFOR ( [<atr>] ; <exp> ; [<atr>] ) <cmd>
+<wh> ::= sWHILE ( <exp> ) <cmd>
+<rpt> ::= sREPEAT { <cmd> ; } sUNTIL ( <exp> )
+<atr> ::= <id> sATRIB <exp>
+<ret> ::= sRETURN <exp>
+<e> ::= sNUM_INT | <id>
+<exp> ::= <exps> { <op3> <exps> }
+<exps> ::= <tmo> { <op2> <tmo> }
+<tmo> ::= <ftr> { <op1> <ftr> }
+<ftr> ::= <e> | sNOT <ftr> | ( <exp> )
+<op3> ::= sMAIOR | sMAIOR_IGUAL | sMENOR | sMENOR_IGUAL | sIGUAL | sDIFERENTE
+<op2> ::= sSOMA | sSUBTR | sOR
+<op1> ::= sMULT | sDIV | sAND

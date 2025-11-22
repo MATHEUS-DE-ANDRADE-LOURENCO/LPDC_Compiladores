@@ -1,0 +1,15 @@
+-- Teste 13: Uso de while e repeat
+prg Teste13;
+var
+  int i;
+begin
+  i <- 1;
+  while (i <= 3)
+    begin
+      write(i);
+      i <- i+1;
+    end;
+  repeat
+    i <- i-1;
+  until (i == 0);
+end.

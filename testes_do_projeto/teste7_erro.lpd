@@ -1,0 +1,5 @@
+-- Erro Léxico: string não terminada
+prg LexErr01;
+begin
+  write("Olá mundo);
+end.

@@ -1,0 +1,5 @@
+Tabela de Simbolos
+
+-- Escopo 0 --
+nome=Teste10 kind=FUNC type=void params=0
+nome=somatorio kind=FUNC type=int params=1

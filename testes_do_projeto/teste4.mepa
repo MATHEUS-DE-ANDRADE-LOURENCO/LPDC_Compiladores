@@ -1,0 +1,15 @@
+	INPP
+	AMEM 1
+	LEIT 0
+	CRVL 0
+	CRCT 0
+	CMMAI
+	JMPF L0
+	CRCT Número positivo
+	IMPR
+	JMP L1
+L0:	
+	CRCT Número não positivo
+	IMPR
+L1:	
+	PARA

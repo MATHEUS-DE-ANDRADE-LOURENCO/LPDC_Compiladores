@@ -1,0 +1,10 @@
+-- Erro Semântico 03: chamada de função com número incorreto de parâmetros
+prg SemErr03;
+subrot
+int soma(int a, int b)
+begin
+  return a+b;
+end;
+begin
+  write(soma(1));
+end.

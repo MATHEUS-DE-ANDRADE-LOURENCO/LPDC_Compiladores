@@ -1,0 +1,18 @@
+-- Teste 09: Verificação de triângulo
+prg Teste09;
+var
+  int a,b,c;
+begin
+  read(a);
+  read(b);
+  read(c);
+  if ((a+b<c) or (a+c<b) or (b+c<a)) then
+    write("Não forma triângulo")
+  else
+    if ((a==b)and(b==c)) then
+      write("Equilátero")
+    else if ((a!=b)and(b!=c)) then
+      write("Escaleno")
+    else
+      write("Isósceles");
+end.

@@ -1,0 +1,10 @@
+-- Teste 12: Sub-rotina de soma
+prg Teste12;
+subrot
+int soma(int a, int b)
+begin
+  return a+b;
+end;
+begin
+  write(soma(10,20));
+end.

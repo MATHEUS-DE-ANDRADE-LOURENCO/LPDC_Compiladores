@@ -1,0 +1,9 @@
+-- Teste 03: Soma de dois números
+prg Teste03;
+var
+  int a, b;
+begin
+  read(a);
+  read(b);
+  write("Soma:", a+b);
+end.

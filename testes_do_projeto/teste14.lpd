@@ -1,0 +1,9 @@
+-- Teste 14: Leitura e escrita de char/string
+prg Teste14;
+var
+  char c;
+begin
+  write("Digite um char:");
+  read(c);
+  write("Você digitou:", c);
+end.

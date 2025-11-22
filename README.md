@@ -1,1 +1,0 @@
-# LPDC_Compiladores

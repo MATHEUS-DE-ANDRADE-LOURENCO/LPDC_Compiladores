@@ -1,0 +1,15 @@
+-- Teste 10: Sub-rotina com laço e retorno
+prg Teste10;
+subrot
+int somatorio(int n)
+var
+  int i, total;
+begin
+  total <- 0;
+  for (i<-1; i<=n; i<-i+1)
+    total <- total+i;
+  return total;
+end;
+begin
+  write("Somatório até 5:", somatorio(5));
+end.

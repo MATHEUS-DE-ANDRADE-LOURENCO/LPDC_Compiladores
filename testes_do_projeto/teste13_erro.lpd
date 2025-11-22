@@ -1,0 +1,5 @@
+-- Erro Sintático 02: parênteses faltando em write
+prg SintErr02;
+begin
+  write("Hello" ;
+end.

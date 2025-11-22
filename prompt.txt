@@ -1,0 +1,39 @@
+# Objetivo
+Implementar o compilador da linguagem LPD conforme especificações fornecidas pelo professor e materiais de apoio, garantindo corretude sintática, semântica e geração de código MEPA.
+
+# Diretrizes Gerais
+- Seguir rigorosamente o padrão de organização de arquivos definido pelo professor.
+- Implementar de forma incremental:
+  1. Analisador Sintático (ASDR)
+  2. Análise Semântica e Tabela de Símbolos
+  3. Geração de Código MEPA
+- Somente avançar para a próxima etapa após validar todos os testes da etapa atual.
+- Produzir código limpo, legível, bem comentado e em conformidade com boas práticas de desenvolvimento em C.
+- Inserir no início de cada arquivo fonte a identificação dos autores:
+    Matheus de Andrade Lourenço - 1041691 
+    Murillo Cardoso Ferreira - 10418082
+
+# Requisitos Específicos
+- Utilizar o analisador léxico já implementado (analex).
+- Para cada programa de entrada:
+- Gerar arquivo `<nome>.mepa` contendo o código MEPA traduzido.
+- Gerar arquivo `<nome>.tsim` contendo a tabela de símbolos.
+- O compilador deve detectar e reportar erros sintáticos e semânticos de forma clara e informativa.
+- Seguir a arquitetura sugerida pelo professor, mas é permitido aplicar padrões adicionais que melhorem clareza e performance.
+
+# Testes
+- Utilizar os 10 programas exemplares corretos como base de validação.
+- Utilizar também os programas com erros para validar diagnóstico e robustez.
+- Apenas prosseguir para a próxima fase quando todos os testes da fase atual forem aprovados.
+
+# Referências Obrigatórias
+- Manual da linguagem LPD (`linguagem_lpd.txt`)
+- Roteiro do projeto (`ROTEIRO.md`)
+- Manual da MEPA (`mepa.txt`)
+
+# Resultado Esperado
+Um compilador modular e funcional, capaz de:
+- Reconhecer e validar programas em LPD.
+- Construir e exportar tabela de símbolos.
+- Traduzir para código MEPA executável.
+- Reportar erros de forma clara e consistente.

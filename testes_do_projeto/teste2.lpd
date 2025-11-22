@@ -1,0 +1,9 @@
+-- Teste 02: Entrada e saída simples
+prg Teste02;
+var
+  int x;
+begin
+  write("Digite um número:");
+  read(x);
+  write("Você digitou:", x);
+end.

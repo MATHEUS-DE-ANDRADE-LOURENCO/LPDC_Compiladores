@@ -1,0 +1,10 @@
+-- Erro Semântico 02: retorno com tipo incompatível
+prg SemErr02;
+subrot
+int f()
+begin
+  return "isso nao é int";
+end;
+begin
+  write(f());
+end.

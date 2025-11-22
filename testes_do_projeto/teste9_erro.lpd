@@ -1,0 +1,9 @@
+-- Erro Semântico 01: redeclaração de variável
+prg SemErr01;
+var
+  int a, b;
+var
+  int a;
+begin
+  write(a);
+end.

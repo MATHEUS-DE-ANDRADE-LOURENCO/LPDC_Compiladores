@@ -1,0 +1,6 @@
+-- Erro Sintático 01: falta 'begin'
+prg SintErr01;
+var
+  int a;
+  int b;
+end.

@@ -1,0 +1,25 @@
+	INPP
+somatorio:	
+	AMEM 3
+	CRCT 0
+	ARMZ 2
+	CRCT 1
+	ARMZ 1
+	CRVL 1
+	CRVL 0
+	CMMEIG
+	CRVL 1
+	CRCT 1
+	SOMA
+	ARMZ 1
+	CRVL 2
+	CRVL 1
+	SOMA
+	ARMZ 2
+	CRVL 2
+	CRCT Somatório até 5:
+	IMPR
+	CRVL -1
+	CRCT 5
+	IMPR
+	PARA
