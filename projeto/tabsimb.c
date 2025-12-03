@@ -24,6 +24,9 @@ void ts_init(void) {
     ts_enter_scope();
 }
 
+/* Inicializa a estrutura da tabela de símbolos e cria o escopo global.
+ * Deve ser chamada antes de iniciar a análise. */
+
 void ts_enter_scope(void) {
     Scope *s = (Scope*) malloc(sizeof(Scope));
     s->symbols = NULL;
@@ -31,6 +34,8 @@ void ts_enter_scope(void) {
     s->alloc_base = next_address;
     scope_stack = s;
 }
+
+/* Entra em um novo escopo: empilha um novo container de símbolos. */
 
 void ts_exit_scope(void) {
     if (!scope_stack) return;
@@ -49,6 +54,8 @@ void ts_exit_scope(void) {
     free(tmpS);
 }
 
+/* Sai do escopo atual: libera registros alocados no escopo e desempilha. */
+
 static RegistroTS *find_in_scope(Scope *s, const char *lexema) {
     RegistroTS *p = s->symbols;
     while (p) {
@@ -65,6 +72,9 @@ RegistroTS* ts_buscar(char *lexema) {
     }
     return NULL;
 }
+
+/* Procura um identificador percorrendo os escopos do mais interno para o mais externo.
+ * Retorna o registro encontrado ou NULL. */
 
 static void insert_symbol(RegistroTS *r) {
     if (!scope_stack) return;
@@ -100,10 +110,15 @@ RegistroTS* ts_inserir(char *lexema, Categoria cat, TipoAtomo tipo, int endereco
     return r;
 }
 
+/* Insere um novo símbolo no escopo atual. Em caso de duplicata, reporta erro.
+ * Retorna o registro criado (ponteiro) ou NULL se falhar. */
+
 int ts_locals_count_current_scope(void) {
     if (!scope_stack) return 0;
     return next_address - scope_stack->alloc_base;
 }
+
+/* Retorna o número de locais/alocações no escopo atual (útil para AMEM). */
 
 /* FUNÇÃO ATUALIZADA PARA MOSTRAR TIPOS DOS PARÂMETROS */
 void ts_write_file(const char *filename) {
@@ -164,3 +179,6 @@ void ts_write_file(const char *filename) {
     free(arr);
     fclose(f);
 }
+
+/* Exporta a tabela de símbolos para o arquivo indicado, incluindo assinatura
+ * de funções (tipos de parâmetros). */

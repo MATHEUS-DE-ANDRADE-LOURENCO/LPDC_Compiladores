@@ -79,11 +79,12 @@ static const char *nome_token(TipoAtomo t) {
     }
 }
 
+/* Obtém o próximo token do analisador léxico e trata erros léxicos
+ * Retorna: TInfoAtomo com o token lido. Em caso de erro léxico fatal,
+ * a função reporta e encerra o programa. */
 TInfoAtomo safe_obter_atomo(void) {
     TInfoAtomo t = obter_atomo();
     if (t.tipo == sERRO_LEXICO) {
-        /* Ignora erros léxicos óbvios de comentários mal formados (--) no meio do código se desejado,
-           mas para rigor, aborta. */
         fprintf(stderr, "Erro Léxico na linha %d: caractere inválido ou string não terminada.\n", t.linha);
         exit(1);
     }
@@ -106,6 +107,7 @@ void erro_semantico(const char *msg) {
     exit(1);
 }
 
+/* Avança o token atual se casa com `esperado`, senão reporta erro sintático. */
 void consumir(TipoAtomo esperado) {
     if (lookahead.tipo == esperado) {
         lookahead = safe_obter_atomo();
@@ -116,6 +118,8 @@ void consumir(TipoAtomo esperado) {
     }
 }
 
+/* Verifica compatibilidade entre dois tipos (permite coerção int/float).
+ * Se incompatíveis, dispara erro semântico. */
 void check_types(TipoAtomo t1, TipoAtomo t2) {
     if (t1 == t2) return;
     if ((t1 == sINT && t2 == sFLOAT) || (t1 == sFLOAT && t2 == sINT)) return;
@@ -126,6 +130,8 @@ void check_types(TipoAtomo t1, TipoAtomo t2) {
 
 /* --- Analisador de Expressões --- */
 
+/* Analisa expressões simples (números, strings, identificadores, chamadas e indexação)
+ * Retorna: TipoAtomo do resultado da expressão e emite instruções MEPA correspondentes. */
 TipoAtomo parse_e(void) {
     TipoAtomo tipo_ret = sVOID;
 
@@ -168,7 +174,7 @@ TipoAtomo parse_e(void) {
             if (sym->arr_size == 0) erro_semantico("esta variável não é um vetor");
             consumir(sABRE_COLCH);
             
-            /* CORREÇÃO TESTE 15: Detectar sinal de menos (-) explicitamente */
+            /* Validação de índice: detecta números negativos ou zero. */
             if (lookahead.tipo == sSUBTR) {
                 erro_semantico("indexação inválida: vetores começam em 1 (encontrado número negativo)");
             }
@@ -222,6 +228,7 @@ TipoAtomo parse_e(void) {
     return tipo_ret;
 }
 
+/* Analisa fatores, trata negação lógica e parênteses. */
 TipoAtomo parse_ftr(void) {
     if (lookahead.tipo == sNOT) {
         consumir(sNOT);
@@ -238,6 +245,7 @@ TipoAtomo parse_ftr(void) {
     }
 }
 
+/* Trata multiplicações/divisões e operadores AND, com geração MEPA. */
 TipoAtomo parse_tmo(void) {
     TipoAtomo t1 = parse_ftr();
     while (lookahead.tipo == sMULT || lookahead.tipo == sDIV || lookahead.tipo == sAND) {
@@ -252,6 +260,7 @@ TipoAtomo parse_tmo(void) {
     return t1;
 }
 
+/* Trata adições/subtrações e operador OR, com geração MEPA. */
 TipoAtomo parse_exps(void) {
     TipoAtomo t1 = parse_tmo();
     while (lookahead.tipo == sSOMA || lookahead.tipo == sSUBTR || lookahead.tipo == sOR) {
@@ -266,6 +275,7 @@ TipoAtomo parse_exps(void) {
     return t1;
 }
 
+/* Expressões completas com operadores relacionais. Retorna tipo (int para comparações). */
 TipoAtomo parse_exp(void) {
     TipoAtomo t1 = parse_exps();
     while (lookahead.tipo == sMAIOR || lookahead.tipo == sMAIOR_IGUAL || 
@@ -291,6 +301,7 @@ TipoAtomo parse_exp(void) {
 
 /* --- Comandos --- */
 
+/* Comando write: avalia expressões e emite instruções de impressão. */
 void parse_wr(void) {
     consumir(sWRITE);
     consumir(sABRE_PARENT);
@@ -304,6 +315,7 @@ void parse_wr(void) {
     consumir(sFECHA_PARENT);
 }
 
+/* Comando read: lê valor para variável (ou elemento de vetor) e armazena. */
 void parse_rd(void) {
     consumir(sREAD);
     consumir(sABRE_PARENT);
@@ -315,11 +327,11 @@ void parse_rd(void) {
         
         consumir(sIDENT);
         
-        if (lookahead.tipo == sABRE_COLCH) {
+            if (lookahead.tipo == sABRE_COLCH) {
             if (sym->arr_size == 0) erro_semantico("variável não é vetor");
             consumir(sABRE_COLCH);
             
-            /* CORREÇÃO TESTE 15 */
+            /* Validação de índice para read: não aceita negativos/zero. */
             if (lookahead.tipo == sSUBTR) {
                 erro_semantico("indexação inválida: vetores começam em 1 (encontrado número negativo)");
             }
@@ -337,6 +349,8 @@ void parse_rd(void) {
     consumir(sFECHA_PARENT);
 }
 
+/* Comando return: verifica tipo de retorno com o tipo da função atual
+ * e marca que a função possui um retorno; emite instrução de retorno. */
 void parse_ret(void) {
     consumir(sRETURN);
     if (current_func_type == sVOID) erro_semantico("função void não pode retornar valor");
@@ -348,6 +362,8 @@ void parse_ret(void) {
     gera_instr_mepa(NULL, "RTPR", "0", "0"); 
 }
 
+/* Atribuição: trata variáveis simples e elementos de vetor, valida tipos
+ * e emite a instrução de armazenar (ARMZ). */
 void parse_atr(void) {
     if (lookahead.tipo == sIDENT) {
         char idn[128]; strncpy(idn, lookahead.lexema.string, sizeof(idn)-1);
@@ -364,7 +380,7 @@ void parse_atr(void) {
              if (sym->arr_size == 0) erro_semantico("variável não é vetor");
              consumir(sABRE_COLCH);
              
-             /* CORREÇÃO TESTE 15 */
+             /* Validação de índice em atribuição: rejeita negativos/zero. */
              if (lookahead.tipo == sSUBTR) {
                  erro_semantico("indexação inválida: vetores começam em 1 (encontrado número negativo)");
              }
@@ -531,7 +547,7 @@ void parse_subroutine(void) {
     for(int i=0;i<param_count;i++) rf->param_types[i]=temp_params[i].type;
     
     current_func_type = ftype;
-    func_has_return = 0; /* CORREÇÃO TESTE 6: Reinicia flag para esta função */
+    func_has_return = 0; /* Reinicia flag para esta função (controle de return) */
     
     ts_enter_scope();
     for (int i=0;i<param_count;i++) ts_inserir(temp_params[i].name, CAT_PARAM, temp_params[i].type, 0);
@@ -543,7 +559,7 @@ void parse_subroutine(void) {
     while (lookahead.tipo == sSUBROT) parse_subrot();
     parse_bco();
     
-    /* CORREÇÃO TESTE 6: Verificar se função não-void retornou algo */
+    /* Verifica se função não-void retornou algum valor (return ausente é erro). */
     if (ftype != sVOID && !func_has_return) {
         char msg[256];
         snprintf(msg, sizeof(msg), "Sub-rotina '%s' deve retornar um valor (comando return ausente)", fname);
