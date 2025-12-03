@@ -1,5 +1,5 @@
 /* *******************************************************************************
- * Matheus de Andrade Lourenço - 1041691
+ * Matheus de Andrade Lourenço - 10419691
  * Murillo Cardoso Ferreira    - 10418082
  *
  * tabsimb.c
@@ -20,11 +20,20 @@ static Scope *scope_stack = NULL;
 static int next_address = 0;
 
 void ts_init(void) {
+    /*
+     * Inicialização da tabela de símbolos: zera a pilha de escopos
+     * e cria o escopo global inicial.
+     */
     scope_stack = NULL;
     ts_enter_scope();
 }
 
 void ts_enter_scope(void) {
+    /*
+     * Ao entrar em um novo escopo alocamos uma estrutura `Scope`
+     * que guarda os símbolos locais e o endereço base para alocações
+     * desse escopo (usado para calcular AMEM posteriormente).
+     */
     Scope *s = (Scope*) malloc(sizeof(Scope));
     s->symbols = NULL;
     s->next = scope_stack;
@@ -33,6 +42,11 @@ void ts_enter_scope(void) {
 }
 
 void ts_exit_scope(void) {
+    /*
+     * Remove o escopo atual: desaloca todos os registros de símbolos
+     * do escopo e a própria estrutura de escopo. O `next_address`
+     * permanece global, simplificando alocação sequencial de endereços.
+     */
     if (!scope_stack) return;
     RegistroTS *r = scope_stack->symbols;
     while (r) {
@@ -75,6 +89,11 @@ RegistroTS* ts_inserir(char *lexema, Categoria cat, TipoAtomo tipo, int endereco
         fprintf(stderr, "Erro semântico: identificador '%s' já declarado no mesmo escopo\n", lexema);
         exit(1);
     }
+    /*
+     * Cria um novo registro de tabela de símbolos e o insere
+     * no topo do escopo atual. Para variáveis e parâmetros um
+     * endereço sequencial é atribuído automaticamente.
+     */
     RegistroTS *r = (RegistroTS*) malloc(sizeof(RegistroTS));
     strncpy(r->lexema, lexema, sizeof(r->lexema)-1);
     r->lexema[sizeof(r->lexema)-1] = '\0';

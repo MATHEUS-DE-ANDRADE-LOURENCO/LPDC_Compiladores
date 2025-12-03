@@ -1,5 +1,5 @@
 #/*******************************************************************************
- * Matheus de Andrade Lourenço - 1041691
+ * Matheus de Andrade Lourenço - 10419691
  * Murillo Cardoso Ferreira    - 10418082
  *
  * asdr.c
@@ -70,11 +70,23 @@ static const char *nome_token(TipoAtomo t) {
 }
 
 void erro_sintatico(const char *msg) {
+	/*
+	 * Erro sintático: imprime mensagem formatada contendo a linha
+	 * atual do token `lookahead`, a descrição esperada (`msg`) e
+	 * o token efetivamente encontrado (via `nome_token`).
+	 * Em seguida abortamos a compilação com código 1.
+	 */
 	fprintf(stderr, "Erro sintático na linha %d: %s (encontrado '%s')\n", lookahead.linha, msg, nome_token(lookahead.tipo));
 	exit(1);
 }
 
 void consumir(TipoAtomo esperado) {
+	/*
+	 * Consumir: verifica se o token corrente (`lookahead`) corresponde
+	 * ao token `esperado`. Se sim, avança para o próximo token via
+	 * `obter_atomo()`. Caso contrário, constrói uma mensagem de
+	 * erro e delega para `erro_sintatico`.
+	 */
 	if (lookahead.tipo == esperado) {
 		lookahead = obter_atomo();
 	} else {
@@ -87,6 +99,12 @@ void consumir(TipoAtomo esperado) {
 /* Implementação recursiva-descendente baseada na EBNF fornecida */
 
 void parse_e(void) {
+	/*
+	 * parse_e - trata expressões primárias / fatores atômicos:
+	 * - constantes (números, strings, caracteres)
+	 * - identificadores (variáveis/vetores/ chamadas de função)
+	 * Para constantes, empilha o valor com `CRCT` no MEPA.
+	 */
 	if (lookahead.tipo == sNUM_INT || lookahead.tipo == sNUM_REAL || lookahead.tipo == sSTRING || lookahead.tipo == sCARACTER) {
 		/* constantes: empilhar constante */
 		if (lookahead.tipo == sNUM_INT) {
@@ -103,6 +121,7 @@ void parse_e(void) {
 		}
 		lookahead = obter_atomo();
 	} else if (lookahead.tipo == sIDENT) {
+		/* Identificador: checar existência na tabela e gerar acesso */
 			/* Identificador - verificar existência e uso */
 			char idname[128];
 			strncpy(idname, lookahead.lexema.string, sizeof(idname)-1);

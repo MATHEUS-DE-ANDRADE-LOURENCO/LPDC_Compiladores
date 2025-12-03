@@ -1,5 +1,5 @@
 /* *******************************************************************************
- * Matheus de Andrade Lourenço - 1041691
+ * Matheus de Andrade Lourenço - 10419691
  * Murillo Cardoso Ferreira    - 10418082
  *
  * tabsimb.h
@@ -23,6 +23,8 @@ typedef struct RegistroTS {
 } RegistroTS;
 
 /* Inicialização da tabela */
+/* ts_init: prepara a estrutura de tabela de símbolos e cria o
+ * escopo global inicial. Deve ser chamada antes da análise. */
 void ts_init(void);
 /* Gerenciamento de escopos */
 void ts_enter_scope(void);
@@ -30,7 +32,12 @@ void ts_exit_scope(void);
 /* número de variáveis/alocações no escopo atual (para AMEM) */
 int ts_locals_count_current_scope(void);
 /* Inserção/Busca */
+/* ts_inserir: insere um novo identificador no escopo atual. Retorna
+ * o registro criado (ou NULL em caso de erro). */
 RegistroTS* ts_inserir(char *lexema, Categoria cat, TipoAtomo tipo, int endereco);
+/* ts_buscar: procura um identificador percorrendo a pilha de escopos
+ * (do escopo mais interno para o mais externo). Retorna o registro
+ * encontrado ou NULL caso não exista. */
 RegistroTS* ts_buscar(char *lexema);
 /* Exportar tabela */
 void ts_write_file(const char *filename);

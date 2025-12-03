@@ -3,7 +3,7 @@
 #define ANALEX_H
 
 /*///////////////////////
-        DEFINIÇÕES
+    DEFINIÇÕES
  ///////////////////////*/
 typedef enum {
     // Programa
@@ -57,9 +57,13 @@ typedef struct {
 } TInfoAtomo;
 
 /*///////////////////////
-    VARIÁVEIS GLOBAIS
-      COMPARTILHADAS
+        VARIÁVEIS GLOBAIS
+            COMPARTILHADAS
  ///////////////////////*/
+/* `fonte` é o FILE* para o arquivo de entrada atualmente aberto.
+ * O analisador léxico (`obter_atomo`) consome caracteres desse
+ * stream e preenche estruturas `TInfoAtomo` retornadas ao parser.
+ */
 extern FILE *fonte;
 
 /*///////////////////////

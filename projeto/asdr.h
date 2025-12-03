@@ -6,6 +6,9 @@
     VARIÁVEIS GLOBAIS
       COMPARTILHADAS
  ///////////////////////*/
+ /* lookahead: token corrente lido pelo analisador léxico. Todas as
+  * rotinas de parsing consultam / consomem esse token durante a
+  * análise sintática. */
  extern TInfoAtomo lookahead;
 
 /*///////////////////////
