@@ -1,13 +1,16 @@
 	INPP
-soma:	
+	DSVS L0
+soma:	ENPR 1
 	AMEM 2
 	CRVL 0
 	CRVL 1
 	SOMA
+	RTPR 0 0
+L0:	NADA
 	CRCT Resultado:
 	IMPR
-	CRVL -1
 	CRCT 3
 	CRCT 4
+	CHPR soma 0
 	IMPR
 	PARA

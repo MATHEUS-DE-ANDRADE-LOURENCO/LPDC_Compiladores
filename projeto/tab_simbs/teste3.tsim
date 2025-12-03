@@ -1,6 +1,6 @@
 Tabela de Simbolos
 
 -- Escopo 0 --
-nome=Teste03 kind=FUNC type=void params=0
+nome=Teste03 kind=FUNC type=void params=0 ()
 nome=a kind=VAR type=int
 nome=b kind=VAR type=int

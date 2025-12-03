@@ -1,0 +1,7 @@
+-- Teste 15 (Erro): Indexação negativa inválida
+prg VetorErro;
+var
+  int numeros[10];
+begin
+  numeros[-1] <- 5;
+end.

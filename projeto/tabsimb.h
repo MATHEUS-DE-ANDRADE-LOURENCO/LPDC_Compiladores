@@ -10,15 +10,17 @@
 
 #include "analex.h"
 
+#define MAX_PARAMS 64
 typedef enum { CAT_VAR, CAT_FUNC, CAT_PARAM } Categoria;
 
 typedef struct RegistroTS {
     char lexema[128];
     Categoria cat;
-    TipoAtomo tipo; /* usa TipoAtomo de analex.h */
-    int endereco; /* não usado por enquanto */
-    int arr_size; /* 0 se não for vetor */
-    int param_count; /* para funções */
+    TipoAtomo tipo;       /* Tipo da variável ou retorno da função */
+    int endereco;         /* Endereço relativo na pilha */
+    int arr_size;         /* Tamanho se for vetor (0 = simples) */
+    int param_count;      /* Quantidade de parâmetros (se for função) */
+    TipoAtomo param_types[MAX_PARAMS]; /* Lista de tipos dos parâmetros */
     struct RegistroTS *next;
 } RegistroTS;
 

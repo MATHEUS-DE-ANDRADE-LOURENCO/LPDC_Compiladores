@@ -4,7 +4,6 @@ subrot
 int soma(int a, int b)
 begin
   a <- a+b;
-  -- faltou "return"
 end;
 begin
   write(soma(2,3));

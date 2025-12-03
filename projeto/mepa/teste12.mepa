@@ -1,11 +1,14 @@
 	INPP
-soma:	
+	DSVS L0
+soma:	ENPR 1
 	AMEM 2
 	CRVL 0
 	CRVL 1
 	SOMA
-	CRVL -1
+	RTPR 0 0
+L0:	NADA
 	CRCT 10
 	CRCT 20
+	CHPR soma 0
 	IMPR
 	PARA

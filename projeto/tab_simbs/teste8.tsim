@@ -1,5 +1,5 @@
 Tabela de Simbolos
 
 -- Escopo 0 --
-nome=Teste08 kind=FUNC type=void params=0
-nome=soma kind=FUNC type=int params=2
+nome=Teste08 kind=FUNC type=void params=0 ()
+nome=soma kind=FUNC type=int params=2 (int, int)

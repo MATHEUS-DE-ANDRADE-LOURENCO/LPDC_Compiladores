@@ -1,8 +1,11 @@
 	INPP
+	DSVS L0
 	AMEM 1
+L0:	NADA
 	CRCT Digite um char:
 	IMPR
-	LEIT 0
+	LEIT
+	ARMZ 0
 	CRCT Você digitou:
 	IMPR
 	CRVL 0

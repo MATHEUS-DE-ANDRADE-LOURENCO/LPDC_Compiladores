@@ -1,0 +1,10 @@
+-- Teste 15 (Sucesso): Manipulação correta de vetores
+prg VetorOK;
+var
+  int v[5];
+begin
+  v[1] <- 10;   
+  v[5] <- 50;   
+  write("Primeiro:", v[1]);
+  write("Ultimo:", v[5]);
+end.

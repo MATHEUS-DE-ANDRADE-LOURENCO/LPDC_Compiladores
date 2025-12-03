@@ -1,13 +1,16 @@
 	INPP
-somatorio:	
+	DSVS L0
+somatorio:	ENPR 1
 	AMEM 3
 	CRCT 0
 	ARMZ 2
 	CRCT 1
 	ARMZ 1
+L1:	NADA
 	CRVL 1
 	CRVL 0
-	CMMEIG
+	CMEG
+	DSVF L2
 	CRVL 1
 	CRCT 1
 	SOMA
@@ -16,10 +19,14 @@ somatorio:
 	CRVL 1
 	SOMA
 	ARMZ 2
+	DSVS L1
+L2:	NADA
 	CRVL 2
+	RTPR 0 0
+L0:	NADA
 	CRCT Somatório até 5:
 	IMPR
-	CRVL -1
 	CRCT 5
+	CHPR somatorio 0
 	IMPR
 	PARA
